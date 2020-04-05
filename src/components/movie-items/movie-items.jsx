@@ -4,17 +4,26 @@ import Images from "./movie-items-components/movie-items-images";
 class MovieItems extends React.Component {
 
 
+    state = {
+        show: false
+    };
+
+    myShowButtonHandler = () => {
+        this.setState({show: !this.state.show})
+
+    }
 
     render() {
-        console.log(this.props);
 
-        const {data: {title, vote_average, image}} = this.props;
-        console.log(image);
+        const {data: {title, vote_average, image, overview}} = this.props;
+
         return (
             <div>
-                <Images image={image}/>
+                <Images image={image} title={title}/>
                 <p>Title: {title}</p>
                 <p>IMDb: {vote_average}</p>
+                <button onClick={this.myShowButtonHandler}>show</button>
+                {this.state.show ? <p>{overview}</p> : null}
             </div>
         )
     }

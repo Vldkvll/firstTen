@@ -5,10 +5,14 @@ import MovieItems from "./movie-items/movie-items";
 
 
 class App extends React.Component {
+
     movie = {
             title: "Alladin",
+            image: "https://vignette.wikia.nocookie.net/disney/images/c/cd/Profile_-_Jasmine.jpeg/revision/latest?cb=20190312021628",
             vote_average: 8.6,
-            image: "https://vignette.wikia.nocookie.net/disney/images/c/cd/Profile_-_Jasmine.jpeg/revision/latest?cb=20190312021628"
+        overview: "A kindhearted street urchin and a power-hungry" +
+            " Grand Vizier vie for a magic lamp that has the power" +
+            " to make their deepest wishes come true. "
     };
 
     render() {
