@@ -31,9 +31,9 @@ const MovieItemsCard = ({title, overview, poster_path, vote_average}) => {
                         <button className={`btn btn-outline-info btn-sm`}
                                 onClick={onMyShowButtonHandler}>{show ? "HIDE" : "SHOW"}</button>
                         {show ? <div><p className={`card-text`}>{overview}</p></div> : null}
-                        <div>
+                        <div className={`${cs.buttonArea}`}>
                             <button onClick={onHandlerLike}
-                                    className={like ? `btn btn-danger btn-sm ${cs.btnTrue} ` : "btn btn-outline-warning btn-sm"}>
+                                    className={like ? `btn btn-secondary btn-sm ${cs.btnTrue} ` : "btn btn-outline-warning btn-sm"}>
                                 LIKE
                             </button>
                             <button onClick={onHandlerDelMovie}
