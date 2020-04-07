@@ -1,30 +1,33 @@
 import React from "react";
-import Images from "./movie-items-components/movie-items-images";
+import MovieItemsCard from "./movie-items-components/movie-item-card";
+import cs from"./movie-items.module.css"
 
 class MovieItems extends React.Component {
 
-
-    state = {
-        show: false
-    };
-
-    myShowButtonHandler = () => {
-        this.setState({show: !this.state.show})
-
-    }
-
     render() {
+        const state = this.props;
+        let movieElements = state.movies.map(postElem =>
+            (<MovieItemsCard
+                    title={postElem.title}
+                    overview={postElem.overview}
+                    vote_average={postElem.vote_average}
+                    poster_path={`https://image.tmdb.org/t/p/w500${postElem.poster_path}`}
 
-        const {data: {title, vote_average, image, overview}} = this.props;
-
+                    key={postElem.id}/>
+            ));
         return (
-            <div>
-                <Images image={image} title={title}/>
-                <p>Title: {title}</p>
-                <p>IMDb: {vote_average}</p>
-                <button onClick={this.myShowButtonHandler}>show</button>
-                {this.state.show ? <p>{overview}</p> : null}
+            <div className={cs.mainItems}>
+                {movieElements}
             </div>
+            // <div className="container">
+            //     <div className="row">
+            //         <div className="col">
+            //
+            //             {movieElements}
+            //
+            //         </div>
+            //     </div>
+            // </div>
         )
     }
 }
