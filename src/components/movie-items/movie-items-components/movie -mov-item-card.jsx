@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import cs from "../../movie-items/movie-items.module.css"
 
-const MovieItemsCard = ({title, overview, poster_path, vote_average, id, getIdMovies}) => {
+const MovieMovItemsCard = ({title, overview, poster_path, vote_average, id}) => {
 
     const [show, setStateShow] = useState(false);
     const [like, setStateLike] = useState(false);
-    const [delMovie, setStateDelMovie] = useState(true);
+    // const [delMovie, setStateDelMovie] = useState(true);
     // const [movMovie, setStateMovMovie] = useState([]);
 
     const onMyShowButtonHandler = () => {
@@ -15,21 +15,15 @@ const MovieItemsCard = ({title, overview, poster_path, vote_average, id, getIdMo
     const onHandlerLike = () => {
         setStateLike(!like)
     };
+    // const onHandlerMoveMovie = () => {
+    //     setStateDelMovie(!delMovie)
+    //     setStateMovMovie([...movMovie, id])
+    // };
 
-    const movIdArrayGet = () => {
-        let movIdArray = [];
-        return () => {
-            setStateDelMovie(!delMovie);
-            movIdArray = [...movIdArray, id];
-            getIdMovies(movIdArray);
-        };
-    }
-
-
-    if (delMovie) {
+    // if (delMovie) {
         return (
             <div className={`${cs.mainItemsElement}`}>
-                <div className="card" style={{width: "16rem"}}>
+                <div className="card" style={{width: "14rem"}}>
                     <img className="card-img-top" src={poster_path} alt={title}/>
                     <div className="card-body">
                         <h5 className="card-title">{title}</h5>
@@ -44,10 +38,6 @@ const MovieItemsCard = ({title, overview, poster_path, vote_average, id, getIdMo
                                     LIKE
                                 </button>
 
-                                <button onClick={movIdArrayGet()}
-                                        className={`btn btn-danger btn-sm`}>
-                                    WATCH
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -55,10 +45,10 @@ const MovieItemsCard = ({title, overview, poster_path, vote_average, id, getIdMo
             </div>
 
         )
-    } else {
-        return null
-    }
-    ;
+    // } else {
+    //     return
+    // }
+    // ;
 
-}
-export default MovieItemsCard
+};
+export default MovieMovItemsCard;
