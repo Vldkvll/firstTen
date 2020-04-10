@@ -2,17 +2,28 @@ import React from "react";
 import MovieItemsCard from "./movie-items-components/movie-item-card";
 import cs from "./movie-items.module.css"
 import MovieMovItemsCard from "./movie-items-components/movie -mov-item-card";
+import {UserApi} from "../API/api";
 
 class MovieItems extends React.Component {
     state = {
+        movies: [],
         idMov: [],
         counter: 0
     };
 
-    getIdMovies = (movMovie=0) => {
+    async componentDidMount() {
+
+        const responseData = await UserApi.getMoviesProfile();
+        this.setState({
+            movies: responseData
+        })
+    }
+
+    getIdMovies = (movMovie = 0) => {
         const upMovMovie = [...this.state.idMov, ...movMovie];
         const countAdd = this.state.counter + 1;
-        this.setState({idMov: upMovMovie,
+        this.setState({
+            idMov: upMovMovie,
             counter: countAdd
         });
 
@@ -21,23 +32,18 @@ class MovieItems extends React.Component {
 
     render() {
         const compare = this.state.idMov;
-        console.log(`compare -  ${compare}`)
-        const state = this.props;
-        const filterState = state.movies.filter( elem => {
+        const state = this.state;
+        if (state == []) {
+            return <div>Loading ...</div>
+        }
 
-                console.log(` elem.id - ${elem.id}`)
-                console.log(this.state.idMov)
-            if (this.state.idMov.indexOf( elem.id ) != -1  ) {
+        const filterState = state.movies.filter(elem => {
+            if (this.state.idMov.indexOf(elem.id) != -1) {
                 return true;
             } else {
                 return false;
             }
-
         });
-        console.log(filterState)
-        console.log(` filterState - ${filterState}`);
-        console.log(state.movies)
-        console.log(` state.movies - ${state.movies}`);
 
         let movieElements = state.movies.map(postElem =>
             (
@@ -52,24 +58,19 @@ class MovieItems extends React.Component {
                     id={postElem.id}/>
 
             ));
-        // const movieMovElements = null;
-        // if (this.state.idMov = []) {
-            const movieMovElements = filterState.map(postElem =>
-                (
+        const movieMovElements = filterState.map(postElem =>
+            (
 
-                    <MovieMovItemsCard
-                        title={postElem.title}
-                        overview={postElem.overview}
-                        vote_average={postElem.vote_average}
-                        poster_path={`https://image.tmdb.org/t/p/w500${postElem.poster_path}`}
-                        getIdMovies={this.getIdMovies}
-                        key={postElem.id}
-                        id={postElem.id}/>
+                <MovieMovItemsCard
+                    title={postElem.title}
+                    overview={postElem.overview}
+                    vote_average={postElem.vote_average}
+                    poster_path={`https://image.tmdb.org/t/p/w500${postElem.poster_path}`}
+                    getIdMovies={this.getIdMovies}
+                    key={postElem.id}
+                    id={postElem.id}/>
 
-                ));
-        // } else {
-        //     return movieMovElements;
-        // }
+            ));
 
         return (
             <div className={cs.mainItems}>

@@ -46,7 +46,7 @@ const MovieMovItemsCard = ({title, overview, poster_path, vote_average, id}) => 
 
         )
     // } else {
-    //     return
+    //     return null
     // }
     // ;
 

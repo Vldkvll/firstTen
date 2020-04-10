@@ -6,7 +6,6 @@ const MovieItemsCard = ({title, overview, poster_path, vote_average, id, getIdMo
     const [show, setStateShow] = useState(false);
     const [like, setStateLike] = useState(false);
     const [delMovie, setStateDelMovie] = useState(true);
-    // const [movMovie, setStateMovMovie] = useState([]);
 
     const onMyShowButtonHandler = () => {
         setStateShow(!show)
@@ -24,7 +23,6 @@ const MovieItemsCard = ({title, overview, poster_path, vote_average, id, getIdMo
             getIdMovies(movIdArray);
         };
     }
-
 
     if (delMovie) {
         return (
