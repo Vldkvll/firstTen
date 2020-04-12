@@ -13,11 +13,33 @@ export const API_KEY_4 =
 
 export const UserApi = {
     getMoviesProfile: () => {
-        return axios(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY_3}`)
-            .then(response => {
-                return response.data.results});
-        ;
+        return axios(
+            `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY_3}`
+        ).then(response => {
+            return response.data.results
+        });
     },
+    getSortPopularityMovies: () => {
+        return axios(
+            `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY_3}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`)
+            .then(response => {
+                return response.data.results
+            });
+    },
+    getSortRevenueMoviesProfile: () => {
+        return axios(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY_3}&language=en-US&sort_by=revenue.desc&include_adult=false&include_video=false&page=1`)
+            .then(response => {
+                return response.data.results
+            });
+    },
+    getSortVoteAverageMoviesProfile: () => {
+        return axios(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY_3}&language=en-US&sort_by=vote_average.gte&include_adult=false&include_video=false&page=1`)
+            .then(response => {
+                return response.data.results
+            });
+    },
+
+
 };
 
 

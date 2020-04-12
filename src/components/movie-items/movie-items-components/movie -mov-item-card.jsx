@@ -27,7 +27,7 @@ const MovieMovItemsCard = ({title, overview, poster_path, vote_average, id}) => 
                     <img className="card-img-top" src={poster_path} alt={title}/>
                     <div className="card-body">
                         <h5 className="card-title">{title}</h5>
-                        <h6 className="card-title">{vote_average}</h6>
+                        <h6 className="card-title">IMDb: {vote_average}</h6>
                         <div>
                             <button className={`btn btn-outline-info btn-sm`}
                                     onClick={onMyShowButtonHandler}>{show ? "HIDE" : "SHOW"}</button>

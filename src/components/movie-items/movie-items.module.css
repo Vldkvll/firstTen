@@ -1,6 +1,7 @@
 .mainItems {
     display: grid;
-    grid-template-areas: "main sidebar";
+    grid-template-areas: "headerNav headerNav" "main sidebar";
+    grid-template-rows: 45px 1fr;
     grid-template-columns: 9fr 3fr;
     margin: 15px;
 
