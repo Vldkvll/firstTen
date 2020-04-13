@@ -1,15 +1,29 @@
 .mainItems {
     display: grid;
-    grid-template-areas: "headerNav headerNav" "main sidebar";
-    grid-template-rows: 45px 1fr;
+    grid-template-areas:
+            "search search"
+            "headerNav headerNav"
+            "main sidebar";
     grid-template-columns: 9fr 3fr;
+    grid-template-rows: 75px 65px auto;
     margin: 15px;
+
+}
+
+.containerSearch{
+    grid-area: search;
+    margin: 5px;
+
+}
+
+.mainTabs {
+    grid-area: headerNav;
 
 }
 
 .mainItemsElement {
     grid-area: main;
-    grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+    /*grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));*/
     grid-gap: 0.5em;
     /*grid-template-columns: 3fr 3fr 3fr;*/
 }

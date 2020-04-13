@@ -1,0 +1,11 @@
+.containerTabs{
+    cursor: pointer;
+}
+
+.buttonChangeColor{
+    font-size: 1.1rem;
+}
+
+.buttonChangeColor:hover {
+    font-size: 1.2rem;
+}

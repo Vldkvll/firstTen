@@ -3,7 +3,7 @@ import MovieItemsCard from "./movie-items-components/movie-item-card";
 import cs from "./movie-items.module.css"
 import MovieMovItemsCard from "./movie-items-components/movie -mov-item-card";
 import {UserApi} from "../API/api";
-import MovieTabs from "../movie-tabs/movie-tabs";
+import NavBar from "../nav-bar/nav-bar";
 
 class MovieItems extends React.Component {
     state = {
@@ -11,7 +11,8 @@ class MovieItems extends React.Component {
         idMov: [],
         counter: 0,
         choise: '',
-        active: 'yo'
+        active: 'yo',
+        searchFile: ''
     };
 
     async componentDidMount() {
@@ -30,20 +31,19 @@ class MovieItems extends React.Component {
     async componentDidUpdate(prevProps, prevState) {
 
         if ( prevState.choise !== this.state.choise) {
-            if (this.state.choise === "Popularity desc") {
+            if (this.state.choise === "Popularity") {
                 const responsePopData = await UserApi.getSortPopularityMovies();
-                console.log(responsePopData)
                 await this.setState({
                     movies: responsePopData,
                     active: "1"
                 });
-            } else if (this.state.choise === "Revenue desc") {
+            } else if (this.state.choise === "Revenue") {
                 const responseRevData = await UserApi.getSortRevenueMoviesProfile();
                 this.setState({
                     movies: responseRevData,
                     active: "2"
                 });
-            } else if (this.state.choise === "Vote average desc") {
+            } else if (this.state.choise === "Vote average") {
                 const responseVData = await UserApi.getSortVoteAverageMoviesProfile();
                 this.setState({
                     movies: responseVData,
@@ -52,6 +52,23 @@ class MovieItems extends React.Component {
             }
         }
     }
+
+    onGetSearchFile = async (e) => {
+        e.preventDefault()
+        const responseData = await UserApi.getSearchMovies(this.state.searchFile);
+        this.setState({
+            movies: responseData
+        })
+
+        console.log(this.state.searchFile)
+    };
+
+    onChangeFieldSearchFile = (e) => {
+        console.dir("onChangeFieldSearchFile    "+ e.target.value)
+        this.setState({searchFile: e.target.value})
+    };
+
+
 
     getIdMovies = (movMovie = 0) => {
         const upMovMovie = [...this.state.idMov, ...movMovie];
@@ -103,10 +120,19 @@ class MovieItems extends React.Component {
 
         return (
             <div className={cs.mainItems}>
-                <MovieTabs
-                    active={this.state.active}
-                    onGetChoose={this.onGetChoose}
-                />
+
+                <div className={`${cs.containerSearch}`}>
+                    <NavBar
+                        active={this.state.active}
+                        onGetChoose={this.onGetChoose}
+                        onChangeFieldSearchFile={this.onChangeFieldSearchFile}
+                        onGetSearchFile={this.onGetSearchFile}
+                    />
+                </div>
+               <div className={cs.mainTabs}>
+
+               </div>
+
                 <div className={`card-deck  ${cs.mainItemsElement}`}>
                     {movieElements}
                 </div>

@@ -5,23 +5,23 @@ const MovieTabs = ({onGetChoose, active}) => {
 
 
     return (
-        <ul className={`tabs nav nav-pills ${cs.containerTabs}`}>
+        <ul className={`navbar-nav mr-auto ${cs.containerTabs}`}>
             <li className={`nav-item`}>
                 <div className={`nav-link ${cs.buttonChangeColor} ${active==="1" ? "active": ""}`}
                      onClick={onGetChoose}>
-                    Popularity desc
+                    Popularity
                 </div>
             </li>
             <li className={`nav-item`}>
                 <div className={`nav-link ${cs.buttonChangeColor} ${active==="2" ? "active": ""}`}
                      onClick={onGetChoose}>
-                    Revenue desc
+                    Revenue
                 </div>
             </li>
             <li className={`nav-item`}>
                 <div className={`nav-link ${cs.buttonChangeColor} ${active==="3" ? "active": ""}`}
                      onClick={onGetChoose}>
-                    Vote average desc
+                    Vote average
                 </div>
             </li>
         </ul>
