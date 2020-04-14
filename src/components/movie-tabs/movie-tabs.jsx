@@ -24,6 +24,12 @@ const MovieTabs = ({onGetChoose, active}) => {
                     Vote average
                 </div>
             </li>
+            <li className={`nav-item`}>
+                <div className={`nav-link ${cs.buttonChangeColor} ${active==="4" ? "active": ""}`}
+                     onClick={onGetChoose}>
+                    Release
+                </div>
+            </li>
         </ul>
     )
 };

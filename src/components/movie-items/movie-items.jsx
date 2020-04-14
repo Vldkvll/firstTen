@@ -4,6 +4,7 @@ import cs from "./movie-items.module.css"
 import MovieMovItemsCard from "./movie-items-components/movie -mov-item-card";
 import {UserApi} from "../API/api";
 import NavBar from "../nav-bar/nav-bar";
+import Pagination from "../Utils/pagination";
 
 class MovieItems extends React.Component {
     state = {
@@ -12,13 +13,19 @@ class MovieItems extends React.Component {
         counter: 0,
         choise: '',
         active: 'yo',
-        searchFile: ''
+        searchFile: '',
+        totalMovies: 0,
+        currentPage: 1,
+        met: ''
     };
 
     async componentDidMount() {
         const responseData = await UserApi.getMoviesProfile();
         this.setState({
-            movies: responseData
+            movies: responseData.results,
+            totalMovies: responseData.total_results,
+            active: 1
+
         })
     };
 
@@ -34,20 +41,39 @@ class MovieItems extends React.Component {
             if (this.state.choise === "Popularity") {
                 const responsePopData = await UserApi.getSortPopularityMovies();
                 await this.setState({
-                    movies: responsePopData,
-                    active: "1"
+                    movies: responsePopData.results,
+                    active: 1,
+                    totalMovies: responsePopData.total_results,
+                    currentPage: 1,
+                    counter: 0
+
                 });
             } else if (this.state.choise === "Revenue") {
                 const responseRevData = await UserApi.getSortRevenueMoviesProfile();
                 this.setState({
-                    movies: responseRevData,
-                    active: "2"
+                    movies: responseRevData.results,
+                    active: 2,
+                    totalMovies: responseRevData.total_results,
+                    currentPage: 1,
+                    counter: 0
                 });
             } else if (this.state.choise === "Vote average") {
                 const responseVData = await UserApi.getSortVoteAverageMoviesProfile();
                 this.setState({
-                    movies: responseVData,
-                    active: "3"
+                    movies: responseVData.results,
+                    active: 3,
+                    totalMovies: responseVData.total_results,
+                    currentPage: 1,
+                    counter: 0
+                });
+            } else if (this.state.choise === "Release") {
+                const responseRelData = await UserApi.getSortReleaseMoviesProfile();
+                this.setState({
+                    movies: responseRelData.results,
+                    active: 5,
+                    totalMovies: responseRelData.total_results,
+                    currentPage: 1,
+                    counter: 0
                 });
             }
         }
@@ -57,18 +83,15 @@ class MovieItems extends React.Component {
         e.preventDefault()
         const responseData = await UserApi.getSearchMovies(this.state.searchFile);
         this.setState({
-            movies: responseData
+            movies: responseData.results,
+            totalMovies: responseData.total_results,
+            active: 4
         })
-
-        console.log(this.state.searchFile)
     };
 
     onChangeFieldSearchFile = (e) => {
-        console.dir("onChangeFieldSearchFile    "+ e.target.value)
         this.setState({searchFile: e.target.value})
     };
-
-
 
     getIdMovies = (movMovie = 0) => {
         const upMovMovie = [...this.state.idMov, ...movMovie];
@@ -79,12 +102,47 @@ class MovieItems extends React.Component {
         });
     };
 
+    nextPage = async (page, met) => {
+        let mett = parseInt(met, 10)
+        if (mett === 4) {
+            const responseData = await UserApi.getSearchMovies(this.state.searchFile, page);
+            this.setState({
+                movies: responseData.results,
+                currentPage: page
+            })
+        } else if (mett === 1) {
+            const responsePopData = await UserApi.getSortPopularityMovies(page);
+            await this.setState({
+                movies: responsePopData.results,
+                currentPage: page
+            })
+        } else if (mett === 2) {
+            const responseRevData = await UserApi.getSortRevenueMoviesProfile(page);
+            await this.setState({
+                movies: responseRevData.results,
+                currentPage: page
+            })
+        } else if (mett === 3) {
+            const responseVData = await UserApi.getSortVoteAverageMoviesProfile(page);
+            await this.setState({
+                movies: responseVData.results,
+                currentPage: page
+            })
+        } else if (mett === 5) {
+            const responseRelData = await UserApi.getSortReleaseMoviesProfile(page);
+            this.setState({
+                movies: responseRelData.results,
+                currentPage: page
+            })
+        }
+    }
+
     render() {
+        const totalListOfPages = Math.ceil(this.state.totalMovies / 20);
         const state = this.state.movies;
-        if (!state || state.length === 0 || !state[0].id) {
+        if (!state || state.length === 0 ) {
             return <div>Loading ...</div>
         }
-
         const filterState = state.filter(elem => {
             if (!elem) return false
             if (this.state.idMov.indexOf(elem.id) != -1) {
@@ -101,11 +159,13 @@ class MovieItems extends React.Component {
                     title={postElem.title}
                     overview={postElem.overview}
                     vote_average={postElem.vote_average}
+                    release_date={postElem.release_date}
                     poster_path={`https://image.tmdb.org/t/p/w500${postElem.poster_path}`}
                     getIdMovies={this.getIdMovies}
                     key={postElem.id}
                     id={postElem.id}/>
             )});
+
         const movieMovElements = filterState.map(postElem =>
             (
                 <MovieMovItemsCard
@@ -129,8 +189,14 @@ class MovieItems extends React.Component {
                         onGetSearchFile={this.onGetSearchFile}
                     />
                 </div>
-               <div className={cs.mainTabs}>
-
+               <div className={cs.mainTabsHeader}>
+                   {this.state.totalMovies > 20 ? <Pagination
+                       nextPage={this.nextPage}
+                       totalListOfPages={totalListOfPages}
+                       currentPage={this.state.currentPage}
+                       met={this.state.active}
+                       pageDoze={this.pageDoze}
+                   /> : null}
                </div>
 
                 <div className={`card-deck  ${cs.mainItemsElement}`}>
@@ -144,6 +210,15 @@ class MovieItems extends React.Component {
                         {movieMovElements}
                     </div>
                 </div>
+                <div className={cs.mainTabsFooter}>
+                    {/*{this.state.totalMovies > 20 ? <Pagination*/}
+                    {/*    nextPage={this.nextPage}*/}
+                    {/*    totalListOfPages={totalListOfPages}*/}
+                    {/*    currentPage={this.state.currentPage}*/}
+                    {/*    met={`Popularity`}*/}
+                    {/*    pageDoze={this.pageDoze}*/}
+                    {/*/> : null}*/}
+               </div>
             </div>
         )
     }

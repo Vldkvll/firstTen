@@ -3,21 +3,29 @@
     grid-template-areas:
             "search search"
             "headerNav headerNav"
-            "main sidebar";
+            "main sidebar"
+            "footerNav footerNav";
     grid-template-columns: 9fr 3fr;
-    grid-template-rows: 75px 65px auto;
+    grid-template-rows: 75px 65px auto 65px;
     margin: 15px;
 
 }
 
 .containerSearch{
     grid-area: search;
-    margin: 5px;
+    margin-top: 5px;
 
 }
 
-.mainTabs {
+.mainTabsHeader {
+    margin-top: 17.5px;
     grid-area: headerNav;
+
+}
+
+.mainTabsFooter {
+    margin: 10px;
+    grid-area: footerNav;
 
 }
 

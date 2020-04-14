@@ -14,40 +14,41 @@ export const UserApi = {
         return iniMovieApi(
             `discover/movie?api_key=${API_KEY_3}`
         ).then(response => {
-            return response.data.results
+            return response.data
         });
     },
-    getSortPopularityMovies: () => {
+    getSortPopularityMovies: (page=1) => {
         return iniMovieApi(
-            `discover/movie?api_key=${API_KEY_3}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`)
+            `discover/movie?api_key=${API_KEY_3}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`)
             .then(response => {
-                return response.data.results
+                return response.data
             });
     },
-    getSortRevenueMoviesProfile: () => {
-        return iniMovieApi(`discover/movie?api_key=${API_KEY_3}&language=en-US&sort_by=revenue.desc&include_adult=false&include_video=false&page=1`)
+    getSortRevenueMoviesProfile: (page=1) => {
+        return iniMovieApi(`discover/movie?api_key=${API_KEY_3}&language=en-US&sort_by=revenue.desc&include_adult=false&include_video=false&page=${page}`)
             .then(response => {
-                return response.data.results
+                return response.data
             });
     },
-    getSortVoteAverageMoviesProfile: () => {
-        return iniMovieApi(`discover/movie?api_key=${API_KEY_3}&language=en-US&sort_by=vote_average.gte&include_adult=false&include_video=false&page=1`)
+    getSortVoteAverageMoviesProfile: (page=1) => {
+        return iniMovieApi(`discover/movie?api_key=${API_KEY_3}&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=${page}`)
             .then(response => {
-                return response.data.results
+                return response.data
             });
     },
-    getSearchMovies: (searchFilm) => {
+    getSortReleaseMoviesProfile: (page=1) => {
+        return iniMovieApi(`discover/movie?api_key=${API_KEY_3}&language=en-US&sort_by=release_date.asc&include_adult=false&include_video=false&page=${page}`)
+            .then(response => {
+                return response.data
+            });
+    },
+    getSearchMovies: (searchFilm, page=1) => {
         return iniMovieApi(
-            `search/movie?api_key=${API_KEY_3}&query=${searchFilm}`
+            `search/movie?api_key=${API_KEY_3}&query=${searchFilm}&page=${page}`
         )
             .then(response => {
-                return response.data.results
+                return response.data
             });
     }
-
-
-
 };
 
-
-// https://api.themoviedb.org/3/movie/${type}?api_key=${API_KEY_3}&language=en-US&region=ru&page=1`
