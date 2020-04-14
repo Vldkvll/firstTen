@@ -5,6 +5,7 @@ import MovieMovItemsCard from "./movie-items-components/movie -mov-item-card";
 import {UserApi} from "../API/api";
 import NavBar from "../nav-bar/nav-bar";
 import Pagination from "../Utils/pagination";
+import SearchNoResult from "../search-field/search-no-result";
 
 class MovieItems extends React.Component {
     state = {
@@ -16,7 +17,8 @@ class MovieItems extends React.Component {
         searchFile: '',
         totalMovies: 0,
         currentPage: 1,
-        met: ''
+        met: '',
+        noSearchMovie: 1
     };
 
     async componentDidMount() {
@@ -82,10 +84,14 @@ class MovieItems extends React.Component {
     onGetSearchFile = async (e) => {
         e.preventDefault()
         const responseData = await UserApi.getSearchMovies(this.state.searchFile);
+        if (responseData.total_results===0){
+            return  this.setState({noSearchMovie: 2})
+        }
         this.setState({
             movies: responseData.results,
             totalMovies: responseData.total_results,
-            active: 4
+            active: 4,
+            noSearchMovie: 1
         })
     };
 
@@ -140,8 +146,10 @@ class MovieItems extends React.Component {
     render() {
         const totalListOfPages = Math.ceil(this.state.totalMovies / 20);
         const state = this.state.movies;
-        if (!state || state.length === 0 ) {
+        if ( !state || state.length === 0 ) {
             return <div>Loading ...</div>
+        } else if (this.state.noSearchMovie===2) {
+            return <SearchNoResult onChangeFieldSearchFile={this.onChangeFieldSearchFile} onGetSearchFile={this.onGetSearchFile}/>
         }
         const filterState = state.filter(elem => {
             if (!elem) return false
